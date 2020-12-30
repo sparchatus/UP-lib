@@ -1,4 +1,4 @@
-UnifiedPush connector library
+# UP-lib
 
 This is a library that can be used by an end user application to receive notifications from any unified push provider.
 
@@ -26,7 +26,9 @@ dependencies {
 ```
 
 # For FCM to work
-Add `classpath 'com.google.gms:google-services:4.3.4'  // Google Services plugin` to you project level build.gradle
-Furthermore you need to add `id 'com.google.gms.google-services'  // Google Services plugin` to your
-app level build.gradle. Lastly, since this version of the lib uses play services behind the scenes
-you need to add the google-services.json file from firebase to your app directory.
+* Add `classpath 'com.google.gms:google-services:4.3.4'` to you project level build.gradle.
+* Add `id 'com.google.gms.google-services'` to your app level build.gradle.
+* Add the google-services.json file from firebase to your app directory.
+* Add the actions `org.unifiedpush.android.distributor.REGISTER` and `org.unifiedpush.android.distributor.UNREGISTER` to your receiver on the manifest.
+
+For instance, [here](https://github.com/UnifiedPush/UP-example/commit/ab076ba450f9c90c9024c19cf9ed4ab6d52ca409) is the commit doing the migration from the main version to the fcm-added version on the example application.
