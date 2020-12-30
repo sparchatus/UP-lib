@@ -9,8 +9,10 @@ import org.unifiedpush.android.connector.*
 class FirebaseRedirectionService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d("UP-FCM", "Firebase onNewToken $token")
-        saveToken(baseContext,token)
-        registerApp(baseContext)
+        if (getDistributor(baseContext) == FCM_DISTRIBUTOR_NAME) {
+            saveToken(baseContext, token)
+            registerApp(baseContext)
+        }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
