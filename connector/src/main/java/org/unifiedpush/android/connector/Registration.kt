@@ -13,16 +13,16 @@ fun registerApp(context: Context): String {
     var distributor = getDistributor(context)
 
     val token = getToken(context).let {
-        if (distributor == FCM_DISTRIBUTOR_NAME && it.isEmpty()){
-            var fcmToken = ""
+        if (it.isEmpty()) newToken(context) else it
+    }
+
+    if (token.isEmpty()) {
             FirebaseMessaging.getInstance().token.addOnSuccessListener { _token ->
-                fcmToken = _token!!
+                Log.d("UP-Registration","token: $_token")
+                saveToken(context,_token)
+                registerApp(context)
             }
-            saveToken(context,fcmToken)
-            fcmToken
-        }else {
-            if (it.isEmpty()) newToken(context) else it
-        }
+        return ""
     }
 
     if (distributor == FCM_DISTRIBUTOR_NAME) {
@@ -79,6 +79,8 @@ fun getToken(context: Context): String {
 }
 
 fun newToken(context: Context): String {
+    if (getDistributor(context) == FCM_DISTRIBUTOR_NAME)
+        return ""
     val token = UUID.randomUUID().toString()
     context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE).edit()
         .putString(PREF_MASTER_TOKEN, token).commit()
